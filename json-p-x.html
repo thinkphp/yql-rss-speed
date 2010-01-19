@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>RSS Feeds Javascript with multi.list.rss</title>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+  <style type="text/css">
+   body{font-family:verdana,sans-serif;font-size:12px;}
+   div.feed{float:left;width:20%;height:200px;overflow:auto;}
+   p{clear:both;font-size:20px;margin:20px 0;color:#363;position:absolute;top:.5em;right:1em;}
+   #nav {clear:both;margin:1em 0;list-style:none;padding:.5em;background: #CEFFB7;}
+   #nav li{display:inline;padding-right:1em;}
+   a{color:#000;}
+   h1{background:#CEFFB7;padding:.5em;}
+   #ft p{text-align: right;color: #ccc;font-family: arial}
+   #ft p a{color: #ccc}
+   #loading{font-size: 300%;font-weight:bold}
+   #timespent{font-size: 300%;font-weight:bold;color: #ccc}
+  </style>
+</head>
+<body>
+  <h1>RSS feeds with JSON-P-X JavaScript and rss.multi.list</h1>
+  <div id="feeds">Loading...</div>
+  <div id="timespent"></div>
+  <div id="ft" role="contentinfo"><p>Written by Adrian Statescu</p></div>
+  <script type="text/javascript">
+
+             var startClock = new Date().getTime();  
+
+             document.getElementById('feeds').innerHTML = '<p id="loading">Loading...</p>';
+
+             function seed(o) {
+
+                   document.getElementById('feeds').innerHTML = o.results;
+
+                   var stopClock = new Date().getTime();
+
+                   var timespent = ((stopClock - startClock) / 1000);
+
+                   document.getElementById('timespent').innerHTML = 'Time spent: ' + timespent;
+             }
+
+  </script>
+  <script type="text/javascript" src="http://query.yahooapis.com/v1/public/yql?q=use%20'http%3A%2F%2Fthinkphp.ro%2Fapps%2FYQL%2Fyql-rss-speed%2Frss.multi.list.xml'%20as%20rss%3B%20select%20*%20from%20rss%20where%20feeds%3D%22'http%3A%2F%2Fwww.yqlblog.net%2Fblog%2Ffeed%2F'%2C'http%3A%2F%2Fwww.quirksmode.org%2Fblog%2Findex.xml'%2C'http%3A%2F%2Ffeeds.developer.yahoo.net%2FYDNBlog'%2C'http%3A%2F%2Fwww.planet-php.org%2Frss%2F'%2C'http%3A%2F%2Fplanet.python.org%2Frss20.xml'%22%20and%20html%3D%22true%22%20and%20compact%3D%22true%22&format=xml&diagnostics=false&callback=seed"></script>
+</body>
+</html>

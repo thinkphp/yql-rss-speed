@@ -1,0 +1,61 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+ "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+   <title>Test cURL</title>
+   <link rel="stylesheet" href="http://yui.yahooapis.com/2.7.0/build/reset-fonts-grids/reset-fonts-grids.css" type="text/css">
+   <link rel="stylesheet" href="http://yui.yahooapis.com/2.7.0/build/base/base.css" type="text/css">
+</head>
+<body>
+<div id="doc" class="yui-t7">
+   <div id="hd" role="banner"><h1>Test cURL (speed comparison)</h1></div>
+   <div id="bd" role="main">
+	<div class="yui-g">
+             <table id="out">
+                <tr><th>Run</th><th>Single cURL</th><th>Multi cURL</th><th>YQL cURL</th></tr>
+             </table>
+ 	</div>
+	</div>
+   <div id="ft" role="contentinfo"><p>Written By Adrian Statescu</p></div>
+</div>
+
+<script type="text/javascript" charset="utf-8">
+
+        var count = 0;
+
+        var runs = 5;
+
+        var values = {single: 0,multi: 0,yql: 0};
+
+        var out = document.getElementById('out');
+  
+        function datain(o) {
+
+            out.innerHTML += '<tr><td>'+(count+1)+'</td><td>'+o.single+'</td><td>'+o.multi+'</td><td>'+o.yql+'</td></tr>'; 
+
+            values.single += +o.single;
+
+            values.multi += +o.multi;
+
+            values.yql += +o.yql;
+
+            if(count < runs - 1) {
+
+                    var script = document.createElement('script');
+
+                        script.type = "text/javascript"; 
+
+                        script.src = "hammercurl.php";
+
+                       document.getElementsByTagName('head')[0].appendChild(script);
+            } else {
+
+              out.innerHTML += '<tr><th>Average:</th><td>'+(values.single/runs)+'</td><td>'+(values.multi/runs)+'</td><td>'+(values.yql/runs)+'</td></tr>';
+            }
+
+            count++;
+        }
+</script>
+<script type="text/javascript" src="hammercurl.php"></script>
+</body>
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+   <title>multiRSS</title>
+   <link rel="stylesheet" href="http://yui.yahooapis.com/2.7.0/build/reset-fonts-grids/reset-fonts-grids.css" type="text/css">
+   <link rel="stylesheet" href="http://yui.yahooapis.com/2.7.0/build/base/base.css" type="text/css">
+   <style type="text/css">
+    html,body{color:#fff;background:#222;font-family:calibri,verdana,arial,sans-serif;}
+    h1{font-size:300%;margin:0;text-align:right;color:#3c3}
+    h2{background:#369;padding:5px;color:#fff;font-weight:bold;-moz-box-shadow: 0px 4px 2px -2px #000;-moz-border-radius:5px;-webkit-border-radius:5px;text-shadow: #000 1px 1px;}
+    h3 a{color:#69c;text-decoration:none;}
+    h3{margin:0 0 .2em 0}
+    div.feed h2{background:#3c3;margin: 2px}
+    div.feed a{color: #fff;text-decoration: none}
+    div.feed a:hover{text-decoration:underline}
+    div.feed{float:left;width: 32%;margin :1px}
+    #ft p{text-align: right;color: #ccc;font-family: arial}
+    #ft p a{color: #ccc}
+    #loading{font-size: 300%;font-weight:bold}
+    #timespent{font-size: 300%;font-weight:bold;color: #fff}
+   </style>
+</head>
+<body>
+<div id="doc" class="yui-t7">
+   <div id="hd" role="banner"><h1>multiRSS - using JSON-P-X</h1></div>
+   <div id="bd" role="main">
+	<div class="yui-g" id="container">
+	</div>
+	</div>
+   <div id="timespent"></div>
+   <div id="ft" role="contentinfo"><p>Created By Adrian Statescu using YUI, YQL Execute & <a href="http://thinkphp.ro/apps/YQL/yql-rss-speed/rss.multi.list.xml">Open Data Table</a></p></div>
+</div>
+
+  <script type="text/javascript">
+
+   var multirss = function() {
+
+             var startClock = new Date().getTime();  
+
+             function init() {                   
+
+                   document.getElementById('container').innerHTML = "<p id='loading'>Loading...</p>";
+           
+                   var root = 'http://query.yahooapis.com/v1/public/yql?q=';
+
+                   var yql = 'use \'http://thinkphp.ro/apps/YQL/yql-rss-speed/rss.multi.list.xml\' as rss; select * from rss where feeds="\'http://feeds2.feedburner.com/Woork\',\'http://feeds2.feedburner.com/CssTricks\',\'http://www.phpied.com/feed/\',\'http://feeds.feedburner.com/nettuts\',\'http://feeds.feedburner.com/mootools-blog\',\'http://feeds.feedburner.com/nczonline\',\'http://www.quirksmode.org/blog/index.xml\',\'http://www.planet-php.org/rss/\',\'http://feeds.developer.yahoo.net/YDNBlog\',\'http://www.yqlblog.net/blog/feed/\',\'http://www.cssdrive.com/index.php/news/rss_2.0/\',\'http://feeds.feedburner.com/Scriptnode\'" and compact="true" and html="true"';
+
+                   var url = root + encodeURIComponent(yql) + '&format=xml&callback=multirss.seed&diagnostics=false';
+
+                   loadScript(url,function(){if(window.console){console.log(yql)}});  
+             };
+
+             function seed(o) {
+
+                   document.getElementById('container').innerHTML = o.results;
+
+                   var stopClock = new Date().getTime();
+
+                   var timespent = ((stopClock - startClock) / 1000);
+
+                   document.getElementById('timespent').innerHTML = 'Time spent: ' + timespent;
+             }
+
+
+             function loadScript(url, callback){
+
+                      var script = document.createElement("script");
+
+                      script.type = "text/javascript";
+
+                      if (script.readyState){  //IE
+
+                                script.onreadystatechange = function(){
+
+                       if (script.readyState == "loaded" || script.readyState == "complete"){
+
+                                  script.onreadystatechange = null;
+
+                                  callback();
+                       }
+                       };
+                        } else {  //Others
+                                   script.onload = function(){
+                                   callback();
+                               };
+             }
+
+             script.src = url;
+
+             document.getElementsByTagName("head")[0].appendChild(script);
+             }
+
+       return{init:init,seed:seed};
+   }();//do EXE
+   multirss.init();
+  </script>
+</body>
+</html>

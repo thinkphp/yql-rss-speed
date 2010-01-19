@@ -1,0 +1,52 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+   <title>multiRSS</title>
+   <link rel="stylesheet" href="http://yui.yahooapis.com/2.7.0/build/reset-fonts-grids/reset-fonts-grids.css" type="text/css">
+   <link rel="stylesheet" href="http://yui.yahooapis.com/2.7.0/build/base/base.css" type="text/css">
+   <style type="text/css">
+    html,body{color:#fff;background:#222;font-family:calibri,verdana,arial,sans-serif;}
+    h1{font-size:300%;margin:0;text-align:right;color:#3c3}
+    h2{background:#369;padding:5px;color:#fff;font-weight:bold;-moz-box-shadow: 0px 4px 2px -2px #000;-moz-border-radius:5px;-webkit-border-radius:5px;text-shadow: #000 1px 1px;}
+    h3 a{color:#69c;text-decoration:none;}
+    h3{margin:0 0 .2em 0}
+    div.feed h2{background:#3c3;margin: 2px}
+    div.feed a{color: #fff;text-decoration: none}
+    div.feed a:hover{text-decoration:underline}
+    div.feed{float:left;width: 32%;margin :1px}
+    #ft p{text-align: right;color: #ccc;font-family: arial}
+    #ft p a{color: #ccc}
+    #loading{font-size: 300%;font-weight:bold}
+    #timespent{font-size: 300%;font-weight:bold;color: #fff}
+   </style>
+</head>
+<body>
+<div id="doc" class="yui-t7">
+   <div id="hd" role="banner"><h1>multiRSS - using JSON-P-X</h1></div>
+   <div id="bd" role="main">
+	<div class="yui-g" id="container"></div>
+   </div>
+   <div id="timespent"></div>
+   <div id="ft" role="contentinfo"><p>Created By Adrian Statescu using YUI, YQL Execute & <a href="http://thinkphp.ro/apps/YQL/yql-rss-speed/rss.multi.list.xml">Open Data Table</a></p></div>
+</div>
+
+  <script type="text/javascript">
+
+             var startClock = new Date().getTime();  
+
+             document.getElementById('container').innerHTML = '<p id="loading">Loading...</p>';
+
+             function seed(o) {
+
+                   document.getElementById('container').innerHTML = o.results;
+
+                   var stopClock = new Date().getTime();
+
+                   var timespent = ((stopClock - startClock) / 1000);
+
+                   document.getElementById('timespent').innerHTML = 'Time spent: ' + timespent;
+             }
+  </script>
+  <script type="text/javascript" src="http://query.yahooapis.com/v1/public/yql?q=use%20'http%3A%2F%2Fthinkphp.ro%2Fapps%2FYQL%2Fyql-rss-speed%2Frss.multi.list.xml'%20as%20rss%3B%20select%20*%20from%20rss%20where%20feeds%3D%22'http%3A%2F%2Ffeeds2.feedburner.com%2FWoork'%2C'http%3A%2F%2Ffeeds2.feedburner.com%2FCssTricks'%2C'http%3A%2F%2Fwww.phpied.com%2Ffeed%2F'%2C'http%3A%2F%2Ffeeds.feedburner.com%2Fnettuts'%2C'http%3A%2F%2Ffeeds.feedburner.com%2Fmootools-blog'%2C'http%3A%2F%2Ffeeds.feedburner.com%2Fnczonline'%2C'http%3A%2F%2Fwww.quirksmode.org%2Fblog%2Findex.xml'%2C'http%3A%2F%2Fwww.planet-php.org%2Frss%2F'%2C'http%3A%2F%2Ffeeds.developer.yahoo.net%2FYDNBlog'%2C'http%3A%2F%2Fwww.yqlblog.net%2Fblog%2Ffeed%2F'%2C'http%3A%2F%2Fwww.cssdrive.com%2Findex.php%2Fnews%2Frss_2.0%2F'%2C'http%3A%2F%2Ffeeds.feedburner.com%2FScriptnode'%22%20and%20compact%3D%22true%22%20and%20html%3D%22true%22&format=xml&diagnostics=false&callback=seed"></script>
+</body>
+</html>
